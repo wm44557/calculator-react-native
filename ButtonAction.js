@@ -32,9 +32,23 @@ const ButtonA: () => React$Node = ({value}) => {
         console.log(memoValue);
       }
     } else if (value === '*') {
-      setSign('-');
+      setSign('*');
       if (memoValue !== '') {
-        setMemoValue(Number(memoValue) - Number(currentValue));
+        if (Number(memoValue) !== 0 && Number(currentValue) !== 0) {
+          setMemoValue(Number(memoValue) * Number(currentValue));
+        }
+        setCurrentValue('');
+      } else {
+        setMemoValue(currentValue);
+        setCurrentValue('');
+        console.log(memoValue);
+      }
+    } else if (value === '/') {
+      setSign('/');
+      if (memoValue !== '') {
+        if (Number(memoValue) !== 0 && Number(currentValue) !== 0) {
+          setMemoValue(Number(memoValue) / Number(currentValue));
+        }
         setCurrentValue('');
       } else {
         setMemoValue(currentValue);
@@ -52,6 +66,16 @@ const ButtonA: () => React$Node = ({value}) => {
       if (sign === '-') {
         setResultValue(Number(memoValue) - Number(currentValue));
         setMemoValue(Number(memoValue) - Number(currentValue));
+        setCurrentValue('');
+      }
+      if (sign === '*') {
+        setResultValue(Number(memoValue) * Number(currentValue));
+        setMemoValue(Number(memoValue) * Number(currentValue));
+        setCurrentValue('');
+      }
+      if (sign === '/') {
+        setResultValue(Number(memoValue) / Number(currentValue));
+        setMemoValue(Number(memoValue) / Number(currentValue));
         setCurrentValue('');
       }
     }
