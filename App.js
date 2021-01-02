@@ -1,91 +1,67 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView, View, Text} from 'react-native';
 
 import styled from 'styled-components';
+
+import ButtonNew from './Button';
+import ButtonA from './ButtonAction';
+
+export const AppContext = React.createContext([{}, () => {}]);
+export const AppContext2 = React.createContext([{}, () => {}]);
+export const AppContext3 = React.createContext([{}, () => {}]);
+export const AppContext4 = React.createContext([{}, () => {}]);
+
 const App: () => React$Node = () => {
+  const [currentValue, setCurrentValue] = useState('');
+  const [memoValue, setMemoValue] = useState('');
+  const [resultValue, setResultValue] = useState('');
+  const [sign, setSign] = useState('');
+
   return (
-    <Wrapper>
-      <SafeAreaView>
-        <CalculatorWrapper>
-          <Result>
-            <TextIn>{'RESULT'}</TextIn>
-          </Result>
-          <ButtonsContainer>
-            <Line>
-              <Button>
-                <TextIn>{'1'}</TextIn>
-              </Button>
-              <Button>
-                <TextIn>{'2'}</TextIn>
-              </Button>
-              <Button>
-                <TextIn>{'3'}</TextIn>
-              </Button>
-            </Line>
-            <Line>
-              <Button>
-                <TextIn>{'4'}</TextIn>
-              </Button>
-              <Button>
-                <TextIn>{'5'}</TextIn>
-              </Button>
-              <Button>
-                <TextIn>{'6'}</TextIn>
-              </Button>
-            </Line>
-            <Line>
-              <Button>
-                <TextIn>{'7'}</TextIn>
-              </Button>
-              <Button>
-                <TextIn>{'8'}</TextIn>
-              </Button>
-              <Button>
-                <TextIn>{'9'}</TextIn>
-              </Button>
-            </Line>
-            <LineAction>
-              <Button>
-                <TextIn>{'0'}</TextIn>
-              </Button>
-              <ButtonAction>
-                <TextIn>{'+'}</TextIn>
-              </ButtonAction>
-              <ButtonAction>
-                <TextIn>{'-'}</TextIn>
-              </ButtonAction>
-              <ButtonAction>
-                <TextIn>{'*'}</TextIn>
-              </ButtonAction>
-              <ButtonAction>
-                <TextIn>{'/'}</TextIn>
-              </ButtonAction>
-            </LineAction>
-            <LineAction>
-              <ResultAction>
-                <TextIn>{'='}</TextIn>
-              </ResultAction>
-            </LineAction>
-          </ButtonsContainer>
-        </CalculatorWrapper>
-      </SafeAreaView>
-    </Wrapper>
+    <AppContext.Provider value={[currentValue, setCurrentValue]}>
+      <AppContext2.Provider value={[memoValue, setMemoValue]}>
+        <AppContext3.Provider value={[resultValue, setResultValue]}>
+          <AppContext4.Provider value={[sign, setSign]}>
+            <Wrapper>
+              <SafeAreaView>
+                <CalculatorWrapper>
+                  <Result>
+                    <TextIn>{resultValue}</TextIn>
+                  </Result>
+                  <ButtonsContainer>
+                    <Line>
+                      <ButtonNew value={'1'} />
+                      <ButtonNew value={'2'} />
+                      <ButtonNew value={'3'} />
+                    </Line>
+                    <Line>
+                      <ButtonNew value={'4'} />
+                      <ButtonNew value={'5'} />
+                      <ButtonNew value={'6'} />
+                    </Line>
+                    <Line>
+                      <ButtonNew value={'7'} />
+                      <ButtonNew value={'8'} />
+                      <ButtonNew value={'9'} />
+                    </Line>
+                    <LineAction>
+                      <ButtonNew value={'0'} />
+                      <ButtonA value={'+'} />
+                      <ButtonA value={'-'} />
+                      <ButtonA value={'/'} />
+                      <ButtonA value={'*'} />
+                    </LineAction>
+                    <LineAction>
+                      <ButtonA value={'='} />
+                    </LineAction>
+                  </ButtonsContainer>
+                </CalculatorWrapper>
+              </SafeAreaView>
+            </Wrapper>
+          </AppContext4.Provider>
+        </AppContext3.Provider>
+      </AppContext2.Provider>
+    </AppContext.Provider>
   );
 };
 const Wrapper = styled(View)`
@@ -110,27 +86,7 @@ const Line = styled(View)`
   justify-content: space-between;
   flex-direction: row;
 `;
-const Button = styled(TouchableOpacity)`
-  display: flex;
-  width: 32%;
-  height: 100%;
-  background-color: #555555;
-  align-items: center;
-  justify-content: center;
-`;
-const ButtonAction = styled(Button)`
-  width: 19%;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  background-color: #777777;
-`;
-const ResultAction = styled(Button)`
-  width: 100%;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-`;
+
 const LineAction = styled(Line)`
   margin-top: 20px;
 `;
